@@ -7,7 +7,7 @@ class Libro:
         self._isbn = isbn
         self._titulo = titulo
         self._autor = autor
-        self._disponible = True  # Por defecto, un libro nuevo está disponible
+        self._disponible = True  
 
     @property
     def isbn(self) -> str:

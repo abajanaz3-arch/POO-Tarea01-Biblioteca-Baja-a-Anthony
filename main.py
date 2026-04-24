@@ -1,7 +1,7 @@
 # main.py
-
 from modelo.libro import Libro
 from modelo.estudiante import Estudiante
+from modelo.profesor import Profesor  # <-- Importamos la nueva clase Profesor
 from modelo.biblioteca import Biblioteca
 
 
@@ -19,24 +19,29 @@ def main():
     libro1 = Libro("978-0-13-468599-1", "El Principito", "Antoine de Saint-Exupéry")
     libro2 = Libro("978-0-06-112008-4", "Cien Años de Soledad", "Gabriel García Márquez")
     libro3 = Libro("978-84-376-0494-7", "Don Quijote de la Mancha", "Miguel de Cervantes")
+    libro4 = Libro("978-0-201-83595-3", "Patrones de Diseño", "Erich Gamma") # <-- Libro extra para el profesor
 
     biblioteca.registrar_libro(libro1)
     biblioteca.registrar_libro(libro2)
     biblioteca.registrar_libro(libro3)
+    biblioteca.registrar_libro(libro4)
 
-    # ─── Registrar estudiantes (RF-02) ───
-    print("\n── Registrando estudiantes ──")
+    # ─── Registrar usuarios (RF-02 adaptado) ───
+    print("\n── Registrando usuarios (Estudiantes y Profesores) ──")
     est1 = Estudiante("0926400615", "María", "López", "Ingeniería en Sistemas")
     est2 = Estudiante("0912345678", "Carlos", "Ramírez", "Ingeniería Industrial")
+    prof1 = Profesor("0998765432", "Roberto", "Gómez", "Ciencias de la Computación") # <-- Nuevo profesor
 
-    biblioteca.registrar_estudiante(est1)
-    biblioteca.registrar_estudiante(est2)
+    # Usamos registrar_persona en lugar de registrar_estudiante
+    biblioteca.registrar_persona(est1)
+    biblioteca.registrar_persona(est2)
+    biblioteca.registrar_persona(prof1)
 
     # ─── Estado actual ───
     print(f"\n{biblioteca}\n")
 
     # ─── Realizar préstamos (RF-03 y RF-04) ───
-    print("── Realizando préstamos ──")
+    print("── Realizando préstamos a Estudiantes ──")
     resultado = biblioteca.prestar_libro(
         "978-0-13-468599-1", "0926400615", "2026-04-15", "2026-04-29"
     )
@@ -49,6 +54,13 @@ def main():
 
     resultado = biblioteca.prestar_libro(
         "978-84-376-0494-7", "0912345678", "2026-04-15", "2026-04-22"
+    )
+    print(resultado)
+
+    # ─── Préstamo a Profesor ───
+    print("\n── Realizando préstamo a Profesor ──")
+    resultado = biblioteca.prestar_libro(
+        "978-0-201-83595-3", "0998765432", "2026-04-24", "2026-05-10"
     )
     print(resultado)
 

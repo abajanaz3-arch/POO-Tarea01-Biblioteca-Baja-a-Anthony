@@ -1,16 +1,16 @@
 # modelo/prestamo.py
 
 from modelo.libro import Libro
-from modelo.estudiante import Estudiante
+from modelo.persona import Persona
 
 
 class Prestamo:
-    """Representa un préstamo de un libro a un estudiante."""
+    """Representa un préstamo de un libro a una persona (estudiante o profesor)."""
 
-    def __init__(self, libro: Libro, estudiante: Estudiante,
+    def __init__(self, libro: Libro, persona: Persona,
                  fecha_prestamo: str, fecha_devolucion: str):
         self._libro = libro
-        self._estudiante = estudiante
+        self._persona = persona
         self._fecha_prestamo = fecha_prestamo
         self._fecha_devolucion = fecha_devolucion
         self._activo = True
@@ -20,8 +20,8 @@ class Prestamo:
         return self._libro
 
     @property
-    def estudiante(self) -> Estudiante:
-        return self._estudiante
+    def persona(self) -> Persona:
+        return self._persona
 
     @property
     def activo(self) -> bool:
@@ -35,6 +35,6 @@ class Prestamo:
     def __str__(self) -> str:
         estado = "ACTIVO" if self._activo else "DEVUELTO"
         return (f"Préstamo [{estado}]: {self._libro.titulo} → "
-                f"{self._estudiante.nombre} {self._estudiante.apellido} | "
+                f"{self._persona.nombre} {self._persona.apellido} | "
                 f"Desde: {self._fecha_prestamo} | "
                 f"Hasta: {self._fecha_devolucion}")
