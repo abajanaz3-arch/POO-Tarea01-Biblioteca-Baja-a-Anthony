@@ -42,7 +42,7 @@ def main():
     biblioteca.registrar_persona(prof1)
     
     # 1. Generar mas  libros aleatorios
-    for _ in range(5):
+    for _ in range(10):
         nuevo_libro = Libro(
             isbn=fake.isbn13(),
             titulo=fake.catch_phrase().title(),
@@ -52,7 +52,7 @@ def main():
 
     # 2. Generar mas estudiantes aleatorios
     carreras = ["Ingeniería en Sistemas", "Enfermería", "Psicología", "Turismo"]
-    for _ in range(5):
+    for _ in range(10):
         nuevo_estudiante = Estudiante(
             cedula=fake.unique.numerify("##########"),
             nombre=fake.first_name(),
@@ -63,7 +63,7 @@ def main():
 
     # 3. Generar mas profesores aleatorios
     departamentos = ["Ciencias Básicas", "Ingeniería", "Investigación"]
-    for _ in range(5):
+    for _ in range(10):
         nuevo_profesor = Profesor(
             cedula=fake.unique.numerify("##########"),
             nombre=fake.first_name(),
