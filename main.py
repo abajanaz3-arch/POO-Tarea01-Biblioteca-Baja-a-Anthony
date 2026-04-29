@@ -8,11 +8,11 @@ from modelo.estudiante import Estudiante
 from modelo.profesor import Profesor
 from modelo.biblioteca import Biblioteca
 
-# <-- NUEVO: Inicializamos Faker en español
+
 fake = Faker('es_ES')
 
 def main():
-    # ─── Crear la biblioteca ───
+    #Crear la biblioteca
     print("=" * 60)
     print("  SISTEMA DE GESTIÓN DE BIBLIOTECA UNEMI")
     print("=" * 60)
@@ -20,7 +20,7 @@ def main():
     biblioteca = Biblioteca("Biblioteca Central UNEMI")
     print(f"\n{biblioteca}\n")
 
-    # ─── Registrar libros manuales (RF-01) ───
+    # Registrar libros 
     print("── Registrando libros manuales ──")
     libro1 = Libro("978-0-13-468599-1", "El Principito", "Antoine de Saint-Exupéry")
     libro2 = Libro("978-0-06-112008-4", "Cien Años de Soledad", "Gabriel García Márquez")
@@ -32,7 +32,7 @@ def main():
     biblioteca.registrar_libro(libro3)
     biblioteca.registrar_libro(libro4)
 
-    # ─── Registrar usuarios manuales (RF-02 adaptado) ───
+    # Registrar usuarios 
     print("\n── Registrando usuarios manuales (Estudiantes y Profesores) ──")
     est1 = Estudiante("0926400615", "María", "López", "Ingeniería en Sistemas")
     est2 = Estudiante("0912345678", "Carlos", "Ramírez", "Ingeniería Industrial")
@@ -71,12 +71,11 @@ def main():
             departamento=random.choice(departamentos)
         )
         biblioteca.registrar_persona(nuevo_profesor)
-    # ====================================================================
 
-    # ─── Estado actual (Aquí verás que tienes más libros y usuarios) ───
+   
     print(f"\n{biblioteca}\n")
 
-    # ─── Realizar préstamos (RF-03 y RF-04) ───
+
     print("── Realizando préstamos a Estudiantes (Manuales) ──")
     resultado = biblioteca.prestar_libro(
         "978-0-13-468599-1", "0926400615", "2026-04-15", "2026-04-29"
@@ -100,29 +99,29 @@ def main():
     )
     print(resultado)
 
-    # ─── Intentar prestar un libro ya prestado (RF-04: validación) ───
+
     print("\n── Intentando prestar libro ya prestado ──")
     resultado = biblioteca.prestar_libro(
         "978-0-13-468599-1", "0912345678", "2026-04-16", "2026-04-30"
     )
     print(resultado)
 
-    # ─── Consultar préstamos activos (RF-06) ───
+
     print("\n── Préstamos activos de María López ──")
     prestamos_maria = biblioteca.consultar_prestamos_activos("0926400615")
     for prestamo in prestamos_maria:
         print(f"  → {prestamo}")
 
-    # ─── Devolver un libro (RF-05) ───
+
     print("\n── Devolviendo un libro ──")
     resultado = biblioteca.devolver_libro("978-0-13-468599-1", "0926400615")
     print(resultado)
 
-    # ─── Verificar que el libro está disponible nuevamente ───
+
     print(f"\n── Estado del libro devuelto ──")
     print(f"  {libro1}")
 
-    # ─── Consultar préstamos activos después de devolución ───
+
     print("\n── Préstamos activos de María López (después de devolución) ──")
     prestamos_maria = biblioteca.consultar_prestamos_activos("0926400615")
     if prestamos_maria:
@@ -131,14 +130,14 @@ def main():
     else:
         print("  (Sin préstamos activos)")
 
-    # ─── Ahora el libro puede prestarse de nuevo ───
+
     print("\n── Prestando el libro devuelto a otro estudiante ──")
     resultado = biblioteca.prestar_libro(
         "978-0-13-468599-1", "0912345678", "2026-04-16", "2026-04-30"
     )
     print(resultado)
 
-    # ─── Estado final ───
+
     print(f"\n{'=' * 60}")
     print(f"  {biblioteca}")  # ¡Aquí notarás que la biblioteca tiene 9 libros y 8 personas!
     print(f"{'=' * 60}")
