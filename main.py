@@ -1,9 +1,15 @@
 # main.py
+import random                          
+from faker import Faker                
+from datetime import timedelta          
+
 from modelo.libro import Libro
 from modelo.estudiante import Estudiante
-from modelo.profesor import Profesor  # <-- Importamos la nueva clase Profesor
+from modelo.profesor import Profesor
 from modelo.biblioteca import Biblioteca
 
+# <-- NUEVO: Inicializamos Faker en español
+fake = Faker('es_ES')
 
 def main():
     # ─── Crear la biblioteca ───
@@ -14,34 +20,64 @@ def main():
     biblioteca = Biblioteca("Biblioteca Central UNEMI")
     print(f"\n{biblioteca}\n")
 
-    # ─── Registrar libros (RF-01) ───
-    print("── Registrando libros ──")
+    # ─── Registrar libros manuales (RF-01) ───
+    print("── Registrando libros manuales ──")
     libro1 = Libro("978-0-13-468599-1", "El Principito", "Antoine de Saint-Exupéry")
     libro2 = Libro("978-0-06-112008-4", "Cien Años de Soledad", "Gabriel García Márquez")
     libro3 = Libro("978-84-376-0494-7", "Don Quijote de la Mancha", "Miguel de Cervantes")
-    libro4 = Libro("978-0-201-83595-3", "Patrones de Diseño", "Erich Gamma") # <-- Libro extra para el profesor
+    libro4 = Libro("978-0-201-83595-3", "Patrones de Diseño", "Erich Gamma") 
 
     biblioteca.registrar_libro(libro1)
     biblioteca.registrar_libro(libro2)
     biblioteca.registrar_libro(libro3)
     biblioteca.registrar_libro(libro4)
 
-    # ─── Registrar usuarios (RF-02 adaptado) ───
-    print("\n── Registrando usuarios (Estudiantes y Profesores) ──")
+    # ─── Registrar usuarios manuales (RF-02 adaptado) ───
+    print("\n── Registrando usuarios manuales (Estudiantes y Profesores) ──")
     est1 = Estudiante("0926400615", "María", "López", "Ingeniería en Sistemas")
     est2 = Estudiante("0912345678", "Carlos", "Ramírez", "Ingeniería Industrial")
-    prof1 = Profesor("0998765432", "Roberto", "Gómez", "Ciencias de la Computación") # <-- Nuevo profesor
-
-    # Usamos registrar_persona en lugar de registrar_estudiante
+    prof1 = Profesor("0998765432", "Roberto", "Gómez", "Ciencias de la Computación") 
     biblioteca.registrar_persona(est1)
     biblioteca.registrar_persona(est2)
     biblioteca.registrar_persona(prof1)
+    
+    # 1. Generar mas  libros aleatorios
+    for _ in range(5):
+        nuevo_libro = Libro(
+            isbn=fake.isbn13(),
+            titulo=fake.catch_phrase().title(),
+            autor=fake.name()
+        )
+        biblioteca.registrar_libro(nuevo_libro)
 
-    # ─── Estado actual ───
+    # 2. Generar mas estudiantes aleatorios
+    carreras = ["Ingeniería en Sistemas", "Enfermería", "Psicología", "Turismo"]
+    for _ in range(5):
+        nuevo_estudiante = Estudiante(
+            cedula=fake.unique.numerify("##########"),
+            nombre=fake.first_name(),
+            apellido=fake.last_name(),
+            carrera=random.choice(carreras)
+        )
+        biblioteca.registrar_persona(nuevo_estudiante)
+
+    # 3. Generar mas profesores aleatorios
+    departamentos = ["Ciencias Básicas", "Ingeniería", "Investigación"]
+    for _ in range(5):
+        nuevo_profesor = Profesor(
+            cedula=fake.unique.numerify("##########"),
+            nombre=fake.first_name(),
+            apellido=fake.last_name(),
+            departamento=random.choice(departamentos)
+        )
+        biblioteca.registrar_persona(nuevo_profesor)
+    # ====================================================================
+
+    # ─── Estado actual (Aquí verás que tienes más libros y usuarios) ───
     print(f"\n{biblioteca}\n")
 
     # ─── Realizar préstamos (RF-03 y RF-04) ───
-    print("── Realizando préstamos a Estudiantes ──")
+    print("── Realizando préstamos a Estudiantes (Manuales) ──")
     resultado = biblioteca.prestar_libro(
         "978-0-13-468599-1", "0926400615", "2026-04-15", "2026-04-29"
     )
@@ -58,7 +94,7 @@ def main():
     print(resultado)
 
     # ─── Préstamo a Profesor ───
-    print("\n── Realizando préstamo a Profesor ──")
+    print("\n── Realizando préstamo a Profesor (Manual) ──")
     resultado = biblioteca.prestar_libro(
         "978-0-201-83595-3", "0998765432", "2026-04-24", "2026-05-10"
     )
@@ -104,7 +140,7 @@ def main():
 
     # ─── Estado final ───
     print(f"\n{'=' * 60}")
-    print(f"  {biblioteca}")
+    print(f"  {biblioteca}")  # ¡Aquí notarás que la biblioteca tiene 9 libros y 8 personas!
     print(f"{'=' * 60}")
 
 
